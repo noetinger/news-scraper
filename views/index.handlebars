@@ -1,0 +1,45 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">NY Times Mongo Scraper</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">Home</a></li>
+      <li><a href="/saved">Saved Articles</a></li>
+      <li><a href="/scrape" class="btn btn-danger scrape-new">Scrape Articles!</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="jumbotron text-center">
+  <div class="overlay">
+  </div>
+  <div class="background-image">
+  </div>
+  <div class="caption">
+    <h1>NY Times Mongo Scraper</h1>
+    <p>Scrape the latest news!</p>
+  </div>
+</div>
+<div class="container article-container">
+  {{#each article}}
+  <div class="row">
+    <div class="panel panel-default">
+      <div class="panel-heading" id="panelHead">
+        <h3 class="panel-title">{{this.title}}</h3>
+      </div>
+      <div class="panel-body">
+        <a href="{{this.link}}">{{this.link}}</a>
+        <form class="navbar-form navbar-right" method="POST" action="/saved/{{this.id}}?_method=PUT">
+          <button type="submit" class="btn btn-default" id="articleButton">Save Article</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>NY Times News Scraper, with Mongo! &copy; Nick Oetinger, with the help of the internet.</p>
+  </div>
+</footer>
