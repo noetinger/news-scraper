@@ -63,12 +63,51 @@ app.use(methodOverride("_method"));
 
 
 // Routes
+//Route to scrape the article
+app.get("/scrape", function (req, res) {
+    //Grab body of the HTML
+    axios.get("https://buffalonews.com/section/local-news/").then(function (response) {
+        var $ = cheerio.load(response.data);
+        //Grab the elements/tags (ex: article h2)
+        $("headline").each(function (i, element) {
+            var result = {};
 
+            // Add the text and href of every link, and save them as properties of the result object
+            result.title = $(this)
+                .children("a")
+                .text();
+            result.link = $(this)
+                .children("a")
+                .attr("href");
 
+            // Create a new Article using the `result` object built from scraping
+            db.Article.create(result)
+                .then(function (dbArticle) {
+                    // View the added result in the console
+                    console.log(dbArticle);
+                })
+                .catch(function (err) {
+                    // If an error occurred, log it
+                    console.log(err);
+                });
+        });
 
+        // Send a message to the client
+        res.send("Scrape Complete");
+    });
+})
 
+//Route for getting all articles from db
 
+//Route for getting a specific article by id and corresponding note
 
+//Route for saving/updating an articles note
+
+//Route for saving/updating an article to be saved
+
+//Route for getting saved article
+
+//Route for deleting/updating saved article
 
 
 // Start the server
