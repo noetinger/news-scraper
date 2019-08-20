@@ -1,15 +1,16 @@
-var express = require("express");
-var logger = require("morgan");
-var mongoose = require("mongoose");
+const express = require("express");
+const logger = require("morgan");
+const mongoose = require("mongoose");
+const methodOverride = require('method-override');
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
 // It works on the client and on the server
-var axios = require("axios");
-var cheerio = require("cheerio");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 // Initialize Express
-var app = express();
+const app = express();
 
 // Configure middleware
 
@@ -54,7 +55,7 @@ app.engine("handlebars", exphbs({
 app.set("view engine", "handlebars");
 
 // Override with POST having ?_method=DELETE
-app.use(methodOverride("_method"));
+app.use(methodOverride('_method'));
 
 // Once logged in to the db through mongoose, log a success message
 // db.once("open", function() {
@@ -98,10 +99,41 @@ app.get("/scrape", function (req, res) {
 })
 
 //Route for getting all articles from db
+app.get("/articles", function (req, res) {
+    db.Article.find({})
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
 
 //Route for getting a specific article by id and corresponding note
+app.get("/articles/:id", function(req, res){
+    db.Article.findOne({_id: req.params.id})
+    .populate("note")
+    .then(function(dbArticle){
+        res.json(dbArticle)
+    })
+    .catch(function(err){
+        res.json(err);
+    });
+});
 
 //Route for saving/updating an articles note
+app.post("/articles/:id", function(req, res){
+    db.Note.create(req.body)
+    .then(function(dbNote){
+        return db.Article.findOneAndUpdate({_id: req.params.id}, {note: dbNote._id}, {new: true});
+    })
+    .then(function(dbArticle){
+        res.json(dbArticle);
+    })
+    .catch(function(err){
+        res.json(err);
+    })
+})
 
 //Route for saving/updating an article to be saved
 
