@@ -146,6 +146,23 @@ app.post("/saved/:id", function (req, res) {
         });
 });
 
+//Route for Unsaving/updating an article to be saved
+app.post("/Unsaved/:id", function (req, res) {
+    db.Article
+        .findByIdAndUpdate({
+            _id: req.params.id
+        }, {
+            isSaved: false
+        })
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+            console.log(dbArticle)
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
+
 
 //Route for saving/updating an articles note
 app.post("/savedNote/:id", function (req, res) {

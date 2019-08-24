@@ -21,16 +21,29 @@ $(document).on("click","#saveBtn", function() {
     })
 });
 
-//Handle Delete Article button
-$(".delete").on("click", function() {
+//Handle Unsave Article button
+$(document).on("click","#UnsaveBtn", function() {
+    console.log("UNsaved Button Clicked")
     var thisId = $(this).attr("data-id");
     $.ajax({
         method: "POST",
-        url: "/delete/" + thisId
+        url: "/Unsaved/" + thisId
     }).done(function(data) {
         console.log(data)
+        window.location.reload();
     })
 });
+
+//Handle Delete Article button
+// $(".delete").on("click", function() {
+//     var thisId = $(this).attr("data-id");
+//     $.ajax({
+//         method: "POST",
+//         url: "/delete/" + thisId
+//     }).done(function(data) {
+//         console.log(data)
+//     })
+// });
 
 //Handle Save Note button
 $(".saveNote").on("click", function() {
