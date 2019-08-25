@@ -18,7 +18,7 @@
         <a href={{this.link}} target="_blank">{{this.link}}</a>
         <br><br>
         <button type="button" class="btn btn-success" id="UnsaveBtn" data-id={{this._id}}>Remove Article</button>
-        <button type="button" class="btn btn-primary" id="noteBtn" data-id={{this._id}}>Add Note</button>
+        <button type="button" class="btn btn-primary addViewNote" data-toggle="modal" data-target="#noteModal{{this._id}}" data-id={{this._id}}>Add/View Note</button>
       </div>
       </div>
     </div>
@@ -37,6 +37,10 @@
 <br>
 <footer class="footer">
   <div class="container text-center">
-    <p>Buffalo News Scraper, with Mongo! &copy; Nick Oetinger, with the help of the internet.</p>
+    <p>Buffalo News Scraper, with Mongo! --- Nick Oetinger, with the help of the internet.</p>
   </div>
 </footer>
+
+{{#each article}}
+    {{> notes-modal }}
+{{/each}}

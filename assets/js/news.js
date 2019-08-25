@@ -34,6 +34,18 @@ $(document).on("click","#UnsaveBtn", function() {
     })
 });
 
+//Handle Add/View Note Button
+$(document).on("click",".addViewNote", function() {
+    console.log("Add/View Button Clicked")
+    var thisId = $(this).attr("data-id");
+    $.ajax({
+        method: "GET",
+        url: "/articles/" + thisId
+    }).done(function(data) {
+        console.log(data)
+    })
+});
+
 //Handle Delete Article button
 // $(".delete").on("click", function() {
 //     var thisId = $(this).attr("data-id");
@@ -46,29 +58,30 @@ $(document).on("click","#UnsaveBtn", function() {
 // });
 
 //Handle Save Note button
-$(".saveNote").on("click", function() {
+$(document).on("click","#saveNote", function() {
     var thisId = $(this).attr("data-id");
     if (!$("#noteText" + thisId).val()) {
         alert("please enter a note to save")
     }else {
       $.ajax({
             method: "POST",
-            url: "/savedNote" + thisId,
+            url: "/savedNote/" + thisId,
             data: {
-              text: $("#noteText" + thisId).val()
+              body: $("#noteText" + thisId).val()
             }
           }).done(function(data) {
               // Log the response
               console.log(data);
               // Empty the notes section
               $("#noteText" + thisId).val("");
+              window.location.reload();
               $(".modalNote").modal("hide");
           });
     }
 });
 
 //Handle Delete Note button
-$(".deleteNote").on("click", function() {
+$("#deleteNote").on("click", function() {
     var noteId = $(this).attr("data-note-id");
     var articleId = $(this).attr("data-article-id");
     $.ajax({

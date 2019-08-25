@@ -120,13 +120,14 @@ app.get("/articles/:id", function (req, res) {
     db.Article.findOne({
             _id: req.params.id
         })
-        .populate("note")
+        .populate("Note")
         .then(function (dbArticle) {
             res.json(dbArticle)
         })
         .catch(function (err) {
             res.json(err);
         });
+        console.log("***** Should have Populated******")
 });
 
 //Route for saving/updating an article to be saved

@@ -10,16 +10,17 @@
     {{#each article}}
     <div class="card">
       <div class="card-body">
-      <div class="card-title">
-        <h4>{{this.title}}</h4>
-      </div>
-      <div class="card-text">
-        <p> {{this.summary}}</p>
-        <a href={{this.link}} target="_blank">{{this.link}}</a>
-        <br><br>
-        <button type="button" class="btn btn-success" id="saveBtn" data-id={{this._id}}>Save Article</button>
-        <button type="button" class="btn btn-primary" id="noteBtn" data-id={{this._id}}>Add Note</button>
-      </div>
+        <div class="card-title">
+          <h4>{{this.title}}</h4>
+        </div>
+        <div class="card-text">
+          <p> {{this.summary}}</p>
+          <a href={{this.link}} target="_blank">{{this.link}}</a>
+          <br><br>
+          <button type="button" class="btn btn-success" id="saveBtn" data-id={{this._id}}>Save Article</button>
+
+          <button type="button" class="btn btn-primary" id="addNoteBtn" data-id={{this._id}}>Add/Edit Note</button>
+        </div>
       </div>
     </div>
     <br>
@@ -40,4 +41,3 @@
     <p>Buffalo News Scraper, with Mongo! &copy; Nick Oetinger, with the help of the internet.</p>
   </div>
 </footer>
-
