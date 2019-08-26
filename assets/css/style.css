@@ -2,3 +2,13 @@ body{
     background-image: url("/images/newspaper.jpeg");
     
 }
+
+.jumbotron{
+    background-color: lightgray;
+    height: 160px;
+    vertical-align: middle;
+}
+
+.card-body{
+    background-color: lightcyan;
+}
