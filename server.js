@@ -259,3 +259,7 @@ app.delete("/notes/delete/:note_id/:article_id", function (req, res) {
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
+
+
+//Issue is that the Note Modal is reading the Note Array from the Article DB, and not the Notes from the NoteDB.
+//Need to figure out how to get it to talk with Notes DB, and delete notes from NotesDB and Corrresponding Articles DB.
