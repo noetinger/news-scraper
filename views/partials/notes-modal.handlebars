@@ -7,13 +7,14 @@
                   <h4 class="modal-title">Notes for {{this.title}}</h4>
                 </div>
                 <div class="modal-body">
-                  {{#if this.note}}
-                  {{#each this.note}}
+                  {{#if this.notes}}
+                  {{#each this.notes}}
                   <div class="card text-center">
                     <div class="card-body">
-                      <h6 class="previousNote"> {{this.body}}</h6>
+                      <p>{{this.body}}</p>
+                      <p>WHY WONT IT RETRIEVE THIS.BODY?</p>
                       <button type="button" class="btn btn-danger" id="deleteNote" data-note-id={{this._id}}
-                        data-article-id={{this.article}}>Delete</button>
+                        data-article-id={{this.article}}>Delete Note</button>
                     </div>
                   </div>
                   {{/each}}

@@ -9,6 +9,10 @@ const methodOverride = require('method-override');
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+//Require Note and Article Models
+const Note = require("./models/Note")
+const Article =require("./models/Article")
+
 // Initialize Express
 const app = express();
 
@@ -55,7 +59,7 @@ app.engine("handlebars", exphbs({
 app.set("view engine", "handlebars");
 
 // Override with POST having ?_method=DELETE
-app.use(methodOverride('_method'));
+// app.use(methodOverride('_method'));
 
 // Routes
 
@@ -104,30 +108,23 @@ app.get("/scrape", function (req, res) {
     });
 })
 
-//Route for getting all articles from db
-// app.get("/articles", function (req, res) {
-//     db.Article.find({})
-//         .then(function (dbArticle) {
-//             res.json(dbArticle);
-//         })
-//         .catch(function (err) {
-//             res.json(err);
-//         });
-// });
-
 //Route for getting a specific article by id and corresponding note
 app.get("/articles/:id", function (req, res) {
+    //Find matching article
     db.Article.findOne({
             _id: req.params.id
         })
-        .populate("Note")
+        //...and populate all of the notes associated with it.
+        .populate("note")
+        //query
         .then(function (dbArticle) {
             res.json(dbArticle)
         })
+        //log errors
         .catch(function (err) {
             res.json(err);
         });
-        console.log("***** Should have Populated******")
+    console.log("***** Should have Populated******")
 });
 
 //Route for saving/updating an article to be saved
@@ -167,23 +164,41 @@ app.post("/Unsaved/:id", function (req, res) {
 
 //Route for saving/updating an articles note
 app.post("/savedNote/:id", function (req, res) {
-    db.Note.create(req.body)
-        .then(function (dbNote) {
-            return db.Article.findOneAndUpdate({
-                _id: req.params.id
-            }, {
-                note: dbNote._id
-            }, {
-                new: true
-            });
-        })
-        .then(function (dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function (err) {
-            res.json(err);
-        })
-})
+    var newNote = new Note({
+        body: req.body.body,
+        article: req.params.id
+    });
+    console.log(req.body)
+    // And save the new note the db
+    newNote.save(function (error, note) {
+        // Log any errors
+        if (error) {
+            console.log(error);
+        }
+        // Otherwise
+        else {
+            // Use the article id to find and update it's notes
+            Article.findOneAndUpdate({
+                    "_id": req.params.id
+                }, {
+                    $push: {
+                        "notes": note
+                    }
+                })
+                // Execute the above query
+                .exec(function (err) {
+                    // Log any errors
+                    if (err) {
+                        console.log(err);
+                        res.send(err);
+                    } else {
+                        // Or send the note to the browser
+                        res.send(note);
+                    }
+                });
+        }
+    });
+});
 
 //Route for getting saved article
 app.get("/savedArticles", function (req, res) {
@@ -198,18 +213,15 @@ app.get("/savedArticles", function (req, res) {
     });
 });
 
-//Route for deleting/updating saved article
-app.put("/delete/:id", function (req, res) {
+//Route for deleting an article from the database
+app.post("/deleteArticle/:id", function (req, res) {
     db.Article
-        .findByIdAndUpdate({
+        .remove({
             _id: req.params.id
-        }, {
-            $set: {
-                isSaved: false
-            }
         })
         .then(function (dbArticle) {
             res.json(dbArticle);
+            console.log(dbArticle)
         })
         .catch(function (err) {
             res.json(err);

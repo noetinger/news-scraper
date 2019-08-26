@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-
+var Note = require("./Note");
 var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
@@ -11,10 +11,10 @@ var ArticleSchema = new Schema({
         type: String,
         required: true
     },
-    note: {
+    notes: [{
         type: Schema.Types.ObjectId,
         ref: "Note"
-    },
+    }],
     isSaved: {
         type: Boolean,
         default: false

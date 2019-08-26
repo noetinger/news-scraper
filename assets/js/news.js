@@ -47,15 +47,16 @@ $(document).on("click",".addViewNote", function() {
 });
 
 //Handle Delete Article button
-// $(".delete").on("click", function() {
-//     var thisId = $(this).attr("data-id");
-//     $.ajax({
-//         method: "POST",
-//         url: "/delete/" + thisId
-//     }).done(function(data) {
-//         console.log(data)
-//     })
-// });
+$(document).on("click","#deleteArtBtn", function() {
+    var thisId = $(this).attr("data-id");
+    $.ajax({
+        method: "POST",
+        url: "/deleteArticle/" + thisId
+    }).done(function(data) {
+        console.log(data)
+        window.location.reload();
+    })
+});
 
 //Handle Save Note button
 $(document).on("click","#saveNote", function() {

@@ -1,15 +1,9 @@
-<div class="container">
-  <div class="col-md-12 jumbotron" id="background-image">
-    <div class="text-center">
-      <h1> Buffalo News Mongo Scraper</h1>
-    </div>
-
-  </div>
-  <div class="col-md-12">
-    {{#if article}}
-    {{#each article}}
-    <div class="card">
-      <div class="card-body">
+<!-- Saved Articles-->
+<div class="col-md-12">
+  {{#if article}}
+  {{#each article}}
+  <div class="card">
+    <div class="card-body">
       <div class="card-title">
         <h4>{{this.title}}</h4>
       </div>
@@ -17,21 +11,22 @@
         <p> {{this.summary}}</p>
         <a href={{this.link}} target="_blank">{{this.link}}</a>
         <br><br>
-        <button type="button" class="btn btn-success" id="UnsaveBtn" data-id={{this._id}}>Remove Article</button>
-        <button type="button" class="btn btn-primary addViewNote" data-toggle="modal" data-target="#noteModal{{this._id}}" data-id={{this._id}}>Add/View Note</button>
-      </div>
-      </div>
-    </div>
-    <br>
-    {{/each}}
-    {{else}}
-    <div class="card text-center">
-      <div class="card-body">
-        <h4>Sorry, no new articles found!</h4>
+        <button type="button" class="btn btn-success" id="UnsaveBtn" data-id={{this._id}}>Unsave Article</button>
+        <button type="button" class="btn btn-primary addViewNote" data-toggle="modal"
+          data-target="#noteModal{{this._id}}" data-id={{this._id}}>Add/View Note</button>
       </div>
     </div>
-    {{/if}}
   </div>
+  <br>
+  {{/each}}
+  {{else}}
+  <div class="card text-center">
+    <div class="card-body">
+      <h4>Sorry, no new articles found!</h4>
+    </div>
+  </div>
+  {{/if}}
+</div>
 </div>
 <br>
 <br>
@@ -42,5 +37,5 @@
 </footer>
 
 {{#each article}}
-    {{> notes-modal }}
+{{> notes-modal }}
 {{/each}}
