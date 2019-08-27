@@ -114,7 +114,7 @@ app.get("/articles/:id", function (req, res) {
             _id: req.params.id
         })
         //...and populate all of the notes associated with it.
-        .populate("note")
+        .populate("notes") //note or notes?
         //query
         .then(function (dbArticle) {
             res.json(dbArticle)
@@ -261,5 +261,7 @@ app.listen(PORT, function () {
 });
 
 
-//Issue is that the Note Modal is reading the Note Array from the Article DB, and not the Notes from the NoteDB.
-//Need to figure out how to get it to talk with Notes DB, and delete notes from NotesDB and Corrresponding Articles DB.
+//Issue is that the Note Modal is reading the Note Array from the Article DB, 
+// and not the Notes from the NoteDB.
+//Need to figure out how to get it to talk with Notes DB, 
+// and delete notes from NotesDB and Corrresponding Articles DB.

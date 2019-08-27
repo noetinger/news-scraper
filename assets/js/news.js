@@ -42,7 +42,8 @@ $(document).on("click",".addViewNote", function() {
         method: "GET",
         url: "/articles/" + thisId
     }).done(function(data) {
-        console.log(data)
+        var body = data.notes[0].body || "No note, be the first to create!";
+        $(".card-body").text(body);
     })
 });
 
