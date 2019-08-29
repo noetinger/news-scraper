@@ -3,14 +3,31 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 
 // Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
 const axios = require("axios");
 const cheerio = require("cheerio");
 
 //Require Note and Article Models
 const Note = require("./models/Note")
 const Article =require("./models/Article")
+
+//Mongo Connection to Heroku
+let PORT = process.env.PORT || 3000;
+let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsscraper";
+
+//Config database
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI)
+
+//Connection Checks
+let dbm = mongoose.connection;
+dbm.on('error', (error) => {
+    console.log('Connection error ${error}');
+});
+
+// Connect to the Mongo DB
+// mongoose.connect("mongodb://localhost/newsscraper", {
+//     useNewUrlParser: true
+// });
 
 // Initialize Express
 const app = express();
@@ -27,27 +44,8 @@ app.use(express.json());
 // Make assets a static folder
 app.use(express.static("assets"));
 
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/newsscraper", {
-    useNewUrlParser: true
-});
-
 // Require all models
 var db = require("./models");
-
-var PORT = 3000;
-
-// Database configuration with mongoose
-// mongoose.connect("mongodb://localhost/mongo-news-scraper");
-//define local mongoDB URI
-// if(process.env.MONGODB_URI){
-//     //THIS EXECUTES IF THIS IS IN HEROKU
-//     mongoose.connect(process.env.MONGODB_URI);
-// }else {
-//     mongoose.connect("mongodb://localhost/mongo-news-scraper")
-// }
-
-// var db = mongoose.connection;
 
 // Set Handlebars.
 var exphbs = require("express-handlebars");
@@ -57,8 +55,6 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-// Override with POST having ?_method=DELETE
-// app.use(methodOverride('_method'));
 
 // Routes
 
@@ -228,7 +224,7 @@ app.post("/deleteArticle/:id", function (req, res) {
 });
 
 //Route for deleting a Note from the database
-app.delete("/notes/delete/:note_id/:article_id", function (req, res) {
+app.delete("/notes/delete/:note_id/", function (req, res) {
   // Use the note id to find and delete it
   Note.remove({ "_id": req.params.note_id }, function(err) {
     // Log any errors
@@ -261,7 +257,4 @@ app.listen(PORT, function () {
 });
 
 
-//Issue is that the Note Modal is reading the Note Array from the Article DB, 
-// and not the Notes from the NoteDB.
-//Need to figure out how to get it to talk with Notes DB, 
-// and delete notes from NotesDB and Corrresponding Articles DB.
+//Still has bugs with the notes. Don't have the time currently to troubleshoot it. 

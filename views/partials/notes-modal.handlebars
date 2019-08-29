@@ -11,8 +11,7 @@
                   {{#each this.notes}}
                   <div class="card text-center">
                     <div class="card-body">
-                      <p>{{this.body}}</p>
-                      <p>WHY WONT IT RETRIEVE THIS.BODY?</p>
+                      <p class="notes-text"></p>
                       <button type="button" class="btn btn-danger" id="deleteNoteBtn" data-note-id={{this._id}}
                         data-article-id={{this.article}}>Delete Note</button>
                     </div>

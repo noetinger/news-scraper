@@ -42,8 +42,14 @@ $(document).on("click",".addViewNote", function() {
         method: "GET",
         url: "/articles/" + thisId
     }).done(function(data) {
-        var body = data.notes[0].body || "No note, be the first to create!";
-        $(".card-body").text(body);
+        //Can't figure out how to get this to display more than 1 Article!!!! For loop only displays the newest one!
+        for(var i=0; i < data.notes.length; i ++){
+            $(".notes-text").text(data.notes[i].body);
+            console.log(data.notes[i].body)
+        }
+        
+        // var body = data.notes[0].body;
+        // $(".card-body").text(body);
     })
 });
 
