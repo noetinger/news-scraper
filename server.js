@@ -59,6 +59,18 @@ app.set("view engine", "handlebars");
 // Routes
 
 //GET requests to render Handlebars pages
+app.get("/", function (req, res) {
+    db.Article.find({
+        "isSaved": false
+    }, function (error, data) {
+        var hbsObject = {
+            article: data
+        };
+        console.log(hbsObject);
+        res.render("home", hbsObject);
+    });
+});
+
 app.get("/articles", function (req, res) {
     db.Article.find({
         "isSaved": false
