@@ -10,7 +10,7 @@ An app that scrapes articles from the Buffalo News website and lets users save a
 - Comments can be added on saved articles by clicking the "Add/View Note" button.
 - Saved articles can be removed by clicking the "Unsave Article" button.
 
-[Check out the App](Link Here)
+[Check out the App](https://fierce-depths-94593.herokuapp.com/)
 
 ## Technologies Used
 - Node.js
